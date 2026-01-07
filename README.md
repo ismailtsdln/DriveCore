@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![DriveCore Logo](https://via.placeholder.com/150/000000/FFFFFF?text=DriveCore)
-
 **A modern, safe, and modular vehicle control SDK for autonomous system development.**  
 *Built with Rust for performance and reliability.*
 
