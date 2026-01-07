@@ -1,0 +1,12 @@
+[package]
+name = "drivecore_cli"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+drivecore = { path = "../drivecore" }
+drivecore_common = { path = "../drivecore_common" }
+drivecore_firmware = { path = "../drivecore_firmware" }
+clap = { version = "4.4", features = ["derive"] }
+anyhow = "1.0"
+tokio = { version = "1.0", features = ["full"] }

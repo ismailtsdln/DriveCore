@@ -1,0 +1,1 @@
+/Users/ismailtasdelen/Documents/GitHub/DriveCore/target/debug/libdrivecore_common.rlib: /Users/ismailtasdelen/Documents/GitHub/DriveCore/drivecore_common/src/error.rs /Users/ismailtasdelen/Documents/GitHub/DriveCore/drivecore_common/src/lib.rs /Users/ismailtasdelen/Documents/GitHub/DriveCore/drivecore_common/src/models.rs

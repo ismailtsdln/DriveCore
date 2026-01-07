@@ -1,0 +1,9 @@
+[package]
+name = "drivecore_firmware"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+drivecore_common = { path = "../drivecore_common" }
+async-trait = "0.1"
+
