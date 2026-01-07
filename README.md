@@ -46,7 +46,7 @@ graph TD
     User[User Code / CLI] -->|ControlCommand| Core[DriveCore Controller]
     Core -->|Checks & Safety| Watchdog[Safety Watchdog]
     Core -->|Normalized Cmd| HAL[Firmware Abstraction]
-    HAL -->|CAN Frame| Vehicle[Specific Vehicle (e.g., Kia Soul)]
+    HAL -->|CAN Frame| Vehicle["Specific Vehicle (e.g., Kia Soul)"]
     Vehicle -->|CAN| Hardware[Hardware/Simulator]
 ```
 
