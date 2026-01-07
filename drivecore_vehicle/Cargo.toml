@@ -1,0 +1,10 @@
+[package]
+name = "drivecore_vehicle"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+drivecore_common = { path = "../drivecore_common" }
+drivecore_firmware = { path = "../drivecore_firmware" }
+async-trait = "0.1"
+tokio = { version = "1.0", features = ["sync"] }

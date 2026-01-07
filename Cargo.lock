@@ -163,6 +163,7 @@ dependencies = [
  "drivecore",
  "drivecore_common",
  "drivecore_firmware",
+ "drivecore_vehicle",
  "tokio",
 ]
 
@@ -180,6 +181,16 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "drivecore_common",
+]
+
+[[package]]
+name = "drivecore_vehicle"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "drivecore_common",
+ "drivecore_firmware",
+ "tokio",
 ]
 
 [[package]]

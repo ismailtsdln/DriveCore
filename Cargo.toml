@@ -1,8 +1,8 @@
 [workspace]
 resolver = "2"
 members = [
-    "drivecore",
     "drivecore_firmware",
     "drivecore_cli",
     "drivecore_common",
+    "drivecore_vehicle",
 ]

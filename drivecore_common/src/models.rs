@@ -36,3 +36,10 @@ pub struct VehicleState {
     pub battery_level: Option<f32>,
     pub timestamp: u64,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CanFrame {
+    pub id: u32,
+    pub data: Vec<u8>,
+    pub timestamp: u64,
+}

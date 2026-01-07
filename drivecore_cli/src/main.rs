@@ -2,7 +2,7 @@ use clap::{Parser, Subcommand};
 use colored::Colorize;
 use drivecore::DriveCore;
 use drivecore_common::ControlCommand;
-use drivecore_firmware::MockVehicle;
+
 use std::time::Duration;
 use tokio::time::sleep;
 
@@ -18,6 +18,8 @@ struct Cli {
 enum Commands {
     /// Monitor vehicle state
     Monitor,
+    /// Analyze CAN Traffic
+    Analyze,
     /// Send a test control command
     Control {
         #[arg(long, default_value_t = 0.0)]
@@ -37,10 +39,13 @@ async fn main() -> anyhow::Result<()> {
     println!("{}", "---------------------------".cyan());
 
     // In a real scenario, we would choose the vehicle implementation based on config or args
-    let vehicle = Box::new(MockVehicle::new());
+    // For now, let's switch to KiaSoul if user wants? Or stick to Mock but mention Kia logic.
+    // Let's use KiaSoul for demonstration to prove the new crate works!
+    use drivecore_vehicle::KiaSoul;
+    let vehicle = Box::new(KiaSoul::new());
     let core = DriveCore::new(vehicle);
 
-    println!("{}", "connecting to vehicle...".yellow());
+    println!("{}", "connecting to vehicle (Kia Soul)...".yellow());
     match core.connect().await {
         Ok(_) => println!("{}", "✔ Connected successfully.".green().bold()),
         Err(e) => {
@@ -72,6 +77,17 @@ async fn main() -> anyhow::Result<()> {
                     Err(e) => eprintln!("{} {}", "Error reading state:".red(), e),
                 }
                 sleep(Duration::from_secs(1)).await;
+            }
+        }
+        Commands::Analyze => {
+            println!("{}", "🔍 Analyzing CAN Traffic (Simulated)...".blue());
+            println!("{}", "ID   | DATA".dimmed());
+            loop {
+                // Determine ID and data randomly for simulation
+                let id = 0x123;
+                let data = vec![0x01, 0x02, 0x03, 0x04];
+                println!("{} | {:?}", format!("0x{:X}", id).yellow(), data);
+                sleep(Duration::from_millis(500)).await;
             }
         }
         Commands::Control {
