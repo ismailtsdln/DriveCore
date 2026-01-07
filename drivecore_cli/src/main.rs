@@ -1,8 +1,7 @@
 use clap::{Parser, Subcommand};
 use colored::Colorize;
 use drivecore::DriveCore;
-use drivecore_common::ControlCommand;
-
+use drivecore_common::{ControlCommand, DriveCoreConfig};
 use std::time::Duration;
 use tokio::time::sleep;
 
@@ -33,17 +32,24 @@ enum Commands {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    // Initialize logging
+    tracing_subscriber::fmt::init();
+
     let cli = Cli::parse();
 
     println!("{}", "🚗 DriveCore CLI v0.1.0".bold().cyan());
     println!("{}", "---------------------------".cyan());
+
+    // Load configuration (Using default for now, envision loading from file here)
+    let config = DriveCoreConfig::default();
+    println!("Loaded Configuration: {:?}", config);
 
     // In a real scenario, we would choose the vehicle implementation based on config or args
     // For now, let's switch to KiaSoul if user wants? Or stick to Mock but mention Kia logic.
     // Let's use KiaSoul for demonstration to prove the new crate works!
     use drivecore_vehicle::KiaSoul;
     let vehicle = Box::new(KiaSoul::new());
-    let core = DriveCore::new(vehicle);
+    let core = DriveCore::new(vehicle, config);
 
     println!("{}", "connecting to vehicle (Kia Soul)...".yellow());
     match core.connect().await {
@@ -57,7 +63,20 @@ async fn main() -> anyhow::Result<()> {
     match cli.command {
         Commands::Monitor => {
             println!("{}", "📡 Entering Monitor Mode (Ctrl+C to stop)...".blue());
+            // Spawn a heartbeat task to keep watchdog happy
+            // let core_clone = core.clone(); // Not cloneable? DriveCore is not Clone naturally?
+            // DriveCore implementation:
+            // pub struct DriveCore { vehicle: Arc<...>, ... }
+            // It is not Clone derived. But inner fields are Arc.
+            // We need to implement Clone for DriveCore or wrap it in Arc.
+            // Let's assume user just runs monitor. Wait, monitor loop blocks main thread.
+            // We need to spawn heartbeat.
+
+            // To fix "clone" issue, let's wrap logic or just send heartbeat in loop.
             loop {
+                // Send heartbeat
+                core.heartbeat().await;
+
                 match core.get_state().await {
                     Ok(state) => {
                         // Clear previous line (simple ansi)
@@ -83,6 +102,7 @@ async fn main() -> anyhow::Result<()> {
             println!("{}", "🔍 Analyzing CAN Traffic (Simulated)...".blue());
             println!("{}", "ID   | DATA".dimmed());
             loop {
+                core.heartbeat().await;
                 // Determine ID and data randomly for simulation
                 let id = 0x123;
                 let data = vec![0x01, 0x02, 0x03, 0x04];
