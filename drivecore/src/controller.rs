@@ -3,7 +3,7 @@ use drivecore_firmware::VehicleInterface;
 use std::sync::Arc;
 use std::time::SystemTime;
 use tokio::sync::Mutex;
-use tracing::{debug, error, info, warn};
+use tracing::{error, info, warn};
 
 // Need to allow clean reuse of the core controller
 #[derive(Clone)]
